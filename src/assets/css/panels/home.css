@@ -48,7 +48,8 @@
   background: var(--shadow);
   min-width: 3rem;
   height: 3rem;
-  border-radius: 10px;
+  border-radius: 16px;
+  border: solid 2px var(--border-color);
 }
 
 .player-count {
@@ -64,7 +65,7 @@
   top: 10px;
   right: 10px;
   border-radius: 15px;
-  border: solid 5px var(--background);
+  border: solid 2px var(--background);
   background: #1ac707;
 }
 
@@ -90,7 +91,7 @@
   display: flex;
   bottom: 0;
   right: 0;
-  width: 15%;
+  width: 6%;
   height: calc(80% - 1rem);
   justify-content: center;
   margin-bottom: 1rem;
@@ -103,12 +104,12 @@
 
 .social-block {
   display: flex;
-  background: var(--background-transparent);
-  width: 90px;
-  height: 90px;
+  background: var(--background-social);
+  width: 45px;
+  height: 45px;
   margin-bottom: 1rem;
   border-radius: 10px;
-  font-size: 2rem;
+  font-size: 1rem;
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -130,11 +131,38 @@
 
 .sidebar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 90px;
   background: var(--background);
+
+  /* espaço entre os três grupos */
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Esquerda - alinha à esquerda por padrão */
+.sidebar .left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Centro - para centralizar o conteúdo */
+.sidebar .center {
+  flex-grow: 1; /* ocupa todo espaço disponível */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Direita - alinha à direita */
+.sidebar .right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .player-options {
@@ -144,6 +172,7 @@
   border-radius: 15px;
   height: 3rem;
   margin: 0 1.5rem;
+  gap: 1rem;
 }
 
 .player-head {
@@ -154,7 +183,11 @@
   height: 3rem;
   width: 3rem;
   pointer-events: none;
-  border-radius: 15px;
+  border-radius: 6px;
+}
+
+.player-name {
+  font-size: 1rem;
 }
 
 .player-menu {
@@ -167,49 +200,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.play-instance {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  border: solid 3px var(--element-color);
-  border-radius: 15px;
-  height: 3.2rem;
-  padding-right: 1.9rem;
-}
-
-.play-btn {
-  border: none;
-  border-radius: 10px;
-  background: none;
-  color: var(--color);
-  font-size: 2rem;
-  font-weight: bolder;
-  padding: 0 1.5rem;
-  pointer-events: none;
-}
-
-.instance-select {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  right: -3;
-  top: -2;
-  color: var(--element-color);
-  font-size: 1rem;
-  height: calc(100% - 1px);
-  border: solid 3px var(--element-color);
-  text-align: center;
-  border-radius: 15px;
-  padding: 0 0.5rem;
-  cursor: pointer;
-}
-
-.instance-select:before {
-  transform: rotate(270deg);
-  pointer-events: none;
 }
 
 .info-starting-game {
@@ -225,7 +215,7 @@
 
 .progress-bar::-webkit-progress-bar {
   background-color: var(--background);
-  border: solid 1px var(--element-color);
+  border: solid 2px var(--element-color);
   border-radius: 10px;
 }
 
@@ -238,23 +228,17 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  
 }
 
-.settings-btn {
-  width: 64px;
-  height: 64px;
-  background-color: var(--background-element);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 1.5rem;
-  border: 1px solid var(--border-color);
-  cursor: pointer;
-  transition: var(--transition);
-  padding: 0;
+.uppercase {
+  text-transform: uppercase;
 }
+
+/* *******************************************************************************
+ *                                                                             *
+ * Instances tab                                                               *
+ *                                                                             *
+ ******************************************************************************/
 
 .instance-popup {
   position: absolute;
@@ -274,6 +258,8 @@
   background: var(--background);
   border-radius: 10px;
   padding: 1rem 3rem;
+  max-width: 50%;
+  width: 100%;
 }
 
 .close-popup {
@@ -289,24 +275,38 @@
   justify-content: center;
 }
 
+.instances-List {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
 .instances-tab p {
   margin-top: 1.5rem;
   font-size: 2rem;
 }
 
 .instance-elements {
-  background: var(--background-element);
+  border: 2px solid var(--border-color);
+  padding: 1rem;
   text-align: center;
   border-radius: 10px;
-  margin: 0.5rem 0;
-  font-size: 1.5rem;
+  font-size: 0.8rem;
   cursor: pointer;
+  transition: border-color 0.3s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
 }
 
 .instance-elements:hover {
-  background: var(--element-color);
+  border-color: var(--element-color) !important;
 }
 
 .active-instance {
-  background: var(--element-color);
+  border-color: var(--element-color) !important;
 }

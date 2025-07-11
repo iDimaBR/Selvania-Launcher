@@ -68,10 +68,6 @@
   font-family: "Icons";
   content: "\e901";
 }
-.icon-account-delete:before {
-  font-family: "Icons";
-  content: "\e902";
-}
 .icon-settings:before {
   font-family: "Icons";
   content: "\e909";
@@ -80,30 +76,46 @@
   font-family: "Icons";
   content: "\e90a";
 }
-.icon-arrow:before {
-  font-family: "Social-icons";
-  content: "\e002";
-}
 
 .icon-arrow {
   background-image: url("../images/svgs/arrow.svg");
   background-size: contain;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .icon-arrow-left {
   background-image: url("../images/svgs/arrow-left.svg");
   background-size: contain;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .icon-double-arrow {
   background-image: url("../images/svgs/double-arrow.svg");
   background-size: contain;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .icon-change {
   background-image: url("../images/svgs/change.svg");
   background-size: contain;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .icon-config {
-  width: 28px;
-  height: 28px;
+  width: 16px;
+  height: 16px;
   background-image: url("../images/svgs/config.svg");
   background-size: contain;
   background-repeat: no-repeat;
@@ -112,10 +124,29 @@
 .icon-modpack {
   background-image: url("../images/svgs/modpack.svg");
   background-size: contain;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .icon-save {
   background-image: url("../images/svgs/save.svg");
   background-size: contain;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.icon-account-delete {
+  background-image: url("../images/svgs/remove.svg");
+  background-size: contain;
+  width: 22px;
+  height: 22px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .icon-discord {

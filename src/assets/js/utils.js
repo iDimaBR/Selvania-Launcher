@@ -15,7 +15,15 @@ import popup from "./utils/popup.js";
 import { skin2D } from "./utils/skin.js";
 import slider from "./utils/slider.js";
 
-async function setBackground(theme) {
+function debounce(func, wait) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+async function setBackground(theme, panel) {
   if (typeof theme === "undefined") {
     const databaseLauncher = new database();
     const configClient = await databaseLauncher.readData("configClient");
@@ -23,14 +31,21 @@ async function setBackground(theme) {
     theme = await ipcRenderer.invoke("is-dark-theme", theme);
   }
 
+  if (panel == undefined) {
+    panel = "home";
+  }
+
   const body = document.body;
   body.className = theme ? "dark global" : "light global";
-  
+
   const backgroundPath = theme ? "dark" : "light";
-  const background = `./assets/images/background/${backgroundPath}/background.png`;
+  const background = `./assets/images/background/${backgroundPath}/background-${panel}.png`;
 
   body.style.backgroundImage = `linear-gradient(#00000080, #00000080), url(${background})`;
   body.style.backgroundSize = "cover";
+  body.style.backgroundRepeat = "no-repeat";
+  body.style.backgroundPosition = "center center";
+  body.style.backgroundAttachment = "fixed";
 }
 
 async function changePanel(id) {
@@ -38,6 +53,7 @@ async function changePanel(id) {
   let active = document.querySelector(`.active`);
   if (active) active.classList.toggle("active");
   panel.classList.add("active");
+  setBackground(undefined, id);
 }
 
 async function appdata() {
@@ -73,6 +89,9 @@ async function accountSelect(data) {
   if (activeAccount) activeAccount.classList.toggle("account-select");
   account.classList.add("account-select");
   if (data?.profile?.skins[0]?.base64) headplayer(data.profile.skins[0].base64);
+  if (data?.name) {
+    document.querySelector(".player-name").textContent = data.name;
+  }
 }
 
 async function headplayer(skinBase64) {
@@ -87,7 +106,7 @@ async function setStatus(opt) {
 
   if (!opt) {
     statusServerElement.classList.add("red");
-    statusServerElement.innerHTML = `Offline - 0 ms`;
+    statusServerElement.innerHTML = `Offline`;
     document.querySelector(".status-player-count").classList.add("red");
     playersOnline.innerHTML = "0";
     return;
@@ -104,11 +123,11 @@ async function setStatus(opt) {
   if (!statusServer.error) {
     statusServerElement.classList.remove("red");
     document.querySelector(".status-player-count").classList.remove("red");
-    statusServerElement.innerHTML = `Online - ${statusServer.ms} ms`;
+    statusServerElement.innerHTML = `Online`;
     playersOnline.innerHTML = statusServer.playersConnect;
   } else {
     statusServerElement.classList.add("red");
-    statusServerElement.innerHTML = `Offline - 0 ms`;
+    statusServerElement.innerHTML = `Offline`;
     document.querySelector(".status-player-count").classList.add("red");
     playersOnline.innerHTML = "0";
   }
@@ -128,4 +147,5 @@ export {
   slider as Slider,
   pkg as pkg,
   setStatus as setStatus,
+  debounce as debounce,
 };

@@ -134,6 +134,9 @@ class Launcher {
         let account_selected = configClient ? configClient.account_selected : null
         let popupRefresh = new popup();
 
+        const accountList = document.querySelector('.accounts-list');
+        accountList.innerHTML = '';
+
         if (accounts?.length) {
             for (let account of accounts) {
                 let account_ID = account.ID
@@ -175,7 +178,6 @@ class Launcher {
                         background: false
                     });
                     let refresh_accounts = await new AZauth(this.config.online).verify(account);
-
                     if (refresh_accounts.error) {
                         this.db.deleteData('accounts', account_ID)
                         if (account_ID == account_selected) {

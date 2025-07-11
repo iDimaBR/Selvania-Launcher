@@ -34,7 +34,6 @@ class Login {
       loginOffline.style.display = "block";
     });
 
-    // Cancelar volta para tela inicial
     cancelHome.addEventListener("click", () => {
       loginHome.style.display = "block";
       loginOffline.style.display = "none";
@@ -46,7 +45,6 @@ class Login {
       loginOffline.style.display = "none";
     });
 
-    // Listener do botão conectar offline adicionado apenas uma vez
     connectOffline.addEventListener("click", async () => {
       const popupLogin = new popup();
 
@@ -68,8 +66,18 @@ class Login {
         return;
       }
 
-      let MojangConnect = await Mojang.login(emailOffline.value);
+      const existingAccounts = await this.db.readAllData("accounts");
+      const alreadyExists = existingAccounts.some((acc) => acc.name.toLowerCase() === emailOffline.value.toLowerCase());
+      if (alreadyExists) {
+        popupLogin.openPopup({
+          title: "Conta já adicionada",
+          content: "Esta conta já está salva no launcher.",
+          options: true,
+        });
+        return;
+      }
 
+      let MojangConnect = await Mojang.login(emailOffline.value);
       if (MojangConnect.error) {
         popupLogin.openPopup({
           title: "Error",
@@ -84,7 +92,6 @@ class Login {
       popupLogin.closePopup();
     });
 
-    // Caso AZAuth esteja configurado
     if (typeof this.config.online == "string" && this.config.online.match(/^(http|https):\/\/[^ "]+$/)) {
       loginHome.style.display = "none";
       this.getAZauth();
@@ -109,6 +116,18 @@ class Login {
           document.querySelector(".login-home").style.display = "block";
           return;
         } else {
+          const existingAccounts = await this.db.readAllData("accounts");
+          const alreadyExists = existingAccounts.some((acc) => acc.name.toLowerCase() === account_connect.name.toLowerCase());
+          if (alreadyExists) {
+            popupLogin.openPopup({
+              title: "Conta já adicionada",
+              content: "Esta conta já está salva no launcher.",
+              options: true,
+            });
+            changePanel("home");
+            return;
+          }
+
           await this.saveData(account_connect);
           popupLogin.closePopup();
         }
@@ -123,7 +142,6 @@ class Login {
   }
 
   async getCrack() {
-    console.log("Login offline pronto...");
     const popupLogin = new popup();
     const emailOffline = document.querySelector(".email-offline");
 
@@ -146,8 +164,18 @@ class Login {
         return;
       }
 
-      let MojangConnect = await Mojang.login(emailOffline.value);
+      const existingAccounts = await this.db.readAllData("accounts");
+      const alreadyExists = existingAccounts.some((acc) => acc.name.toLowerCase() === emailOffline.value.toLowerCase());
+      if (alreadyExists) {
+        popupLogin.openPopup({
+          title: "Conta já adicionada",
+          content: "Esta conta já está salva no launcher.",
+          options: true,
+        });
+        return;
+      }
 
+      let MojangConnect = await Mojang.login(emailOffline.value);
       if (MojangConnect.error) {
         popupLogin.openPopup({
           title: "Error",
@@ -187,7 +215,7 @@ class Login {
 
       if (AZauthEmail.value == "" || AZauthPassword.value == "") {
         PopupLogin.openPopup({
-          title: "Erreur",
+          title: "Error",
           content: "Veuillez remplir tous les champs.",
           options: true,
         });
@@ -198,7 +226,7 @@ class Login {
 
       if (AZauthConnect.error) {
         PopupLogin.openPopup({
-          title: "Erreur",
+          title: "Error",
           content: AZauthConnect.message,
           options: true,
         });
@@ -222,7 +250,7 @@ class Login {
 
           if (AZauthA2F.value == "") {
             PopupLogin.openPopup({
-              title: "Erreur",
+              title: "Error",
               content: "Veuillez entrer le code A2F.",
               options: true,
             });
@@ -233,7 +261,7 @@ class Login {
 
           if (AZauthConnect.error) {
             PopupLogin.openPopup({
-              title: "Erreur",
+              title: "Error",
               content: AZauthConnect.message,
               options: true,
             });

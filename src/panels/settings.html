@@ -2,57 +2,58 @@
     <div class="nav-settings">
         <p>Parâmetros</p>
         <div class="nav-box">
-            <div id="account" class="nav-settings-btn active-settings-BTN">CONTAS</div>
-            <div id="java" class="nav-settings-btn">JAVA</div>
-            <div id="resolution" class="nav-settings-btn">RESOLUÇÃO</div>
-            <div id="launcher" class="nav-settings-btn">LAUNCHER</div>
-            <div id="save" class="nav-settings-btn">SALVAR</div>
+            <div id="account" class="btn nav-settings-btn active-settings-BTN">CONTAS</div>
+            <div id="java" class="btn nav-settings-btn">JAVA</div>
+            <div id="resolution" class="btn nav-settings-btn">RESOLUÇÃO</div>
+            <div id="launcher" class="btn nav-settings-btn">LAUNCHER</div>
+            <div id="save" class="btn nav-settings-btn">SALVAR <div class="icon-save"></div></div>
         </div>
     </div>
 
     <div id="account-tab" class="container-settings active-container-settings">
-        <div class="titre-tab">Contas de jogadores</div>
-
-        <div class="accounts-list content-scroll">
-            <div class="account" id="add">
-                <div class="add-profile">
-                    <div class="icon-account-add"></div>
-                </div>
-                <div class="add-text-profile">Adicionar uma conta</div>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Pesquisar uma conta..." />
+            <div class="btn uppercase add-account">
+              Adicionar conta
+              <div class="icon-arrow"></div>
             </div>
-        </div>
+          </div>
+
+        <div class="accounts-list content-scroll"></div>
     </div>
 
     <div id="java-tab" class="container-settings content-scroll">
-        <div class="titre-tab">Suas configurações de RAM</div>
         <div class="settings-elements-box">
+            <div class="titre-tab">Suas configurações de RAM</div>
             <div class="setting-text">
                 Defina a RAM alocada para seu jogo; uma quantidade maior aumentará o desempenho do seu jogo.<br>
                 Defina uma RAM alocada para seu uso; Uma quantidade maior ou menor aumentará seu trabalho.<br><br>
-                <b>-RAM máxima:</b> Indica a quantidade total de RAM alocada para o seu jogo. Recomenda-se não exceder 50% da quantidade total de RAM do seu PC.<br><br>
-                <b>-RAM mínima:</b> Indica a quantidade mínima de RAM alocada quando o jogo inicia. Recomenda-se não exceder 4 GB para este valor.
+                <ul>
+                    <li><b>RAM máxima:</b> <p>Indica a quantidade total de RAM alocada para o seu jogo. Recomenda-se não exceder 50% da quantidade total de RAM do seu PC.</p></li>
+                    <li><b>RAM mínima:</b> <p>Indica a quantidade mínima de RAM alocada quando o jogo inicia. Recomenda-se não exceder 4 GB para este valor.</p></li>
+                </ul>
             </div>
             <div class="settings-elements content-evenly">
                 <div class="memory-slider" min="0.5" max="8" step="0.5">
                     <div class="slider-touch-left">
-                        <span value="0 Go"></span>
+                        <span value="0GB"></span>
                     </div>
                     <div class="slider-touch-right">
-                        <span value="0 Go"></span>
+                        <span value="0GB"></span>
                     </div>
                     <div class="slider-line">
                         <span></span>
                     </div>
                 </div>
                 <div class="ram-info-block">
-                    <b>Você tem um total de <span id="total-ram">0 Gb</span> RAM.</b><br>
-                    <b>Vous tem um total de <span id="free-ram">0 Gb</span> RAM disponível.</b>
+                    <b>Você tem um total de <span id="total-ram">0GB</span> RAM.</b><br>
+                    <b>Vous tem um total de <span id="free-ram">0GB</span> RAM disponível.</b>
                 </div>
             </div>
         </div>
 
-        <div class="titre-tab">Localização do Java</div>
         <div class="settings-elements-box">
+            <div class="titre-tab">Localização do Java</div>
             <div class="setting-text">
                 O iniciador usa uma versão do Java.<br>
                 Esta versão está disponível no diretório:<br><span class="java-path-txt"></span><br>
@@ -62,16 +63,16 @@
                 <input type="text" class="java-path-input-text" disabled>
                 <input type="file" class="java-path-input-file" accept="application/octet-stream" />
                 <div class="java-path-box">
-                    <div class="java-path-set java-path-btn">Alterar</div>
-                    <div class="java-path-reset java-path-btn">Resetar</div>
+                    <div class="btn java-path-set java-path-btn">Alterar <div class="icon-change"></div></div>
+                    <div class="btn java-path-reset java-path-btn">Resetar <div class="icon-arrow-left"></div></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="resolution-tab" class="container-settings">
-        <div class="titre-tab">Configurações de resolução do Minecraft</div>
         <div class="settings-elements-box">
+            <div class="titre-tab">Configurações de resolução</div>
             <div class="setting-text">
                 Defina uma resolução personalizada para ter um jogo que se ajuste à sua tela.<br>
                 Por padrão, o jogo começa em 854 x 480.<br>Você pode alterar esse valor para otimizar o conforto do jogo. A resolução ideal é 1280 x 720.
@@ -82,14 +83,14 @@
                     <div class="size-cross"></div>
                     <input type="number" class="height-size input-resolution">
                 </div>
-                <div class="size-reset size-btn">Resetar</div>
+                <div class="btn size-reset size-btn">Resetar <div class="icon-arrow-left"></div></div>
             </div>
         </div>
     </div>
 
     <div id="launcher-tab" class="container-settings content-scroll">
-        <div class="titre-tab">Configurações Avançadas</div>
         <div class="settings-elements-box">
+            <div class="titre-tab">Configurações Avançadas</div>
             <div class="setting-text">
                 Esta configuração determina o número máximo de arquivos que podem ser baixados simultaneamente ao
                 atualizar ou baixar recursos.<br><br>
@@ -99,36 +100,36 @@
                 a menos que você esteja enfrentando problemas específicos de conectividade.
             </div>
             <div class="settings-elements content-center">
+                <p>Arquivos </p>
                 <input type="number" class="max-files input-max-files">
-                <p>Arquivos</p>
-                <div class="max-files-reset max-files-btn">Resetar</div>
+                <div class="btn max-files-reset max-files-btn">Resetar <div class="icon-arrow-left"></div></div>
             </div>
         </div>
 
-        <div class="titre-tab">Themas</div>
         <div class="settings-elements-box">
+            <div class="titre-tab">Themas</div>
             <div class="setting-text">
                 Escolha entre os temas claro e escuro para personalizar a aparência do inicializador.<br><br>
                 Alterar o tema pode afetar a legibilidade e a experiência visual.<br>
                 Selecione o que melhor se adapta às suas preferências.
             </div>
             <div class="settings-elements content-center theme-box">
-                <div class="theme-btn theme-btn-clair">Claro</div>
-                <div class="theme-btn theme-btn-sombre">Escuro</div>
-                <div class="theme-btn theme-btn-auto">Automático</div>
+                <div class="btn theme-btn theme-btn-clair">Claro</div>
+                <div class="btn theme-btn theme-btn-sombre">Escuro</div>
+                <div class="btn theme-btn theme-btn-auto">Automático</div>
             </div>
         </div>
 
-        <div class="titre-tab">Inicialização</div>
         <div class="settings-elements-box">
+            <div class="titre-tab">Inicialização</div>
             <div class="setting-text">
                 Você pode escolher se o inicializador fecha automaticamente ou permanece aberto quando você inicia o jogo.
             </div>
 
-            <div class="settings-elements content-evenly close-box">
-                <div class="close-launcher close-btn">Fechar o launcher após iniciar o jogo</div>
-                <div class="close-none close-btn">Manter o launcher aberto</div>
-                <div class="close-all close-btn">Fechar o jogo se o inicializador estiver fechado</div>
+            <div class="settings-elements settings-column content-evenly close-box">
+                <div class="close-launcher close-btn">Fechar após iniciar o jogo</div>
+                <div class="close-none close-btn">Manter aberto</div>
+                <div class="close-all close-btn">Fechar o jogo caso estiver fechado</div>
             </div>
         </div>
     </div>

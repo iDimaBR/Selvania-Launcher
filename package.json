@@ -1,44 +1,45 @@
 {
-    "name": "Selvania-Launcher",
-    "preductname": "Selvania Launcher",
-    "version": "2.1.1",
-    "description": "Launcher Mincraft pour le serveur Selvania",
-    "main": "src/app.js",
-    "author": {
-        "name": "luuxis, Inc.",
-        "email": "contact@luuxis.fr",
-        "url": "https://github.com/luuxis"
-    },
-    "url": "http://launcher.luuxis.fr",
-    "scripts": {
-        "start": "cross-env-shell NODE_ENV=dev electron .",
-        "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
-        "build": "node build.js --obf=true --build=platform",
-        "icon": "node build.js --icon=https://raw.githubusercontent.com/luuxis/Selvania-Launcher/master/src/assets/images/icon.png"
-    },
-    "license": "CCANC",
-    "nodemonConfig": {
-        "ext": "js,html,css",
-        "ignore": "**/test"
-    },
-    "dependencies": {
-        "electron-updater": "^6.1.8",
-        "minecraft-java-core": "^4.1.1",
-        "node-bdd": "^2.0.4",
-        "node-fetch": "^2.7.0",
-        "xml-js": "^1.6.11"
-    },
-    "devDependencies": {
-        "cross-env": "^7.0.3",
-        "electron": "^30.5.1",
-        "electron-builder": "^26.0.12",
-        "javascript-obfuscator": "^4.1.0",
-        "jimp": "^0.22.12",
-        "nodemon": "^3.1.2",
-        "png2icons": "^2.0.1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/luuxis/Selvania-Launcher.git"
-    }
+  "name": "Selvania-Launcher",
+  "preductname": "Selvania Launcher",
+  "version": "2.1.1",
+  "description": "Launcher Mincraft pour le serveur Selvania",
+  "main": "src/app.js",
+  "author": {
+    "name": "luuxis, Inc.",
+    "email": "contact@luuxis.fr",
+    "url": "https://github.com/luuxis"
+  },
+  "url": "http://launcher.luuxis.fr",
+  "scripts": {
+    "start": "cross-env-shell NODE_ENV=dev electron .",
+    "dev": "cross-env NODE_ENV=dev electron ./src/app.js",
+    "build": "node build.js --obf=true --build=platform",
+    "icon": "node build.js --icon=https://raw.githubusercontent.com/luuxis/Selvania-Launcher/master/src/assets/images/icon.png"
+  },
+  "license": "CCANC",
+  "nodemonConfig": {
+    "ext": "js,html,css",
+    "ignore": "**/test"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.8",
+    "minecraft-java-core": "^4.1.1",
+    "node-bdd": "^2.0.4",
+    "node-fetch": "^2.7.0",
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^30.5.1",
+    "electron-builder": "^26.0.12",
+    "electron-reload": "^2.0.0-alpha.1",
+    "javascript-obfuscator": "^4.1.0",
+    "jimp": "^0.22.12",
+    "nodemon": "^3.1.2",
+    "png2icons": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luuxis/Selvania-Launcher.git"
+  }
 }

@@ -3,7 +3,7 @@
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 
-import { changePanel, accountSelect, database, Slider, config, setStatus, popup, appdata, setBackground } from "../utils.js";
+import { changePanel, accountSelect, database, Slider, config, setStatus, popup, appdata, setBackground, debounce, addAccount } from "../utils.js";
 const { ipcRenderer } = require("electron");
 const os = require("os");
 
@@ -46,11 +46,45 @@ class Settings {
     });
   }
 
+  async renderAccounts(filter = "") {
+    const accountList = document.querySelector(".accounts-list");
+    accountList.innerHTML = "";
+
+    const accounts = await this.db.readAllData("accounts");
+    const filteredAccounts = accounts.filter((account) => account.name.toLowerCase().startsWith(filter.toLowerCase()));
+
+    if (filteredAccounts.length === 0 && filter !== "") {
+      accountList.innerHTML = "Nenhuma conta encontrada";
+      return;
+    }
+
+    if (filter === "") {
+      for (let account of accounts) {
+        await addAccount(account);
+      }
+      return;
+    }
+
+    for (let account of filteredAccounts) {
+      await addAccount(account);
+    }
+  }
+
   accounts() {
+    // Botão para adicionar conta
+    document.querySelector(".add-account").addEventListener("click", async () => {
+      document.querySelector(".cancel-home").style.display = "inline";
+      document.querySelector(".login-home").style.display = "block";
+      document.querySelector(".login-offline").style.display = "none";
+      return changePanel("login");
+    });
+
     document.querySelector(".accounts-list").addEventListener("click", async (e) => {
-      let popupAccount = new popup();
+      const popupAccount = new popup();
+
       try {
-        let id = e.target.id;
+        const id = e.target.id;
+
         if (e.target.classList.contains("account")) {
           popupAccount.openPopup({
             title: "Conexão",
@@ -58,13 +92,9 @@ class Settings {
             color: "var(--color)",
           });
 
-          if (id == "add") {
-            document.querySelector(".cancel-home").style.display = "inline";
-            return changePanel("login");
-          }
-
-          let account = await this.db.readData("accounts", id);
+          const account = await this.db.readData("accounts", id);
           let configClient = await this.setInstance(account);
+
           await accountSelect(account);
           configClient.account_selected = account.ID;
           return await this.db.updateData("configClient", configClient);
@@ -76,19 +106,25 @@ class Settings {
             content: "Por favor, aguarde...",
             color: "var(--color)",
           });
-          await this.db.deleteData("accounts", id);
-          let deleteProfile = document.getElementById(`${id}`);
-          let accountListElement = document.querySelector(".accounts-list");
-          accountListElement.removeChild(deleteProfile);
 
-          if (accountListElement.children.length == 1) return changePanel("login");
+          await this.db.deleteData("accounts", id);
+          const element = document.getElementById(`${id}`);
+          if (element) element.remove();
+
+          const remaining = document.querySelector(".accounts-list").children;
+          if (remaining.length == 0) {
+            document.querySelector(".login-home").style.display = "block";
+            document.querySelector(".login-offline").style.display = "none";
+            document.querySelector(".cancel-home").style.display = "inline";
+            return changePanel("login");
+          }
 
           let configClient = await this.db.readData("configClient");
-
           if (configClient.account_selected == id) {
             let allAccounts = await this.db.readAllData("accounts");
             configClient.account_selected = allAccounts[0].ID;
             accountSelect(allAccounts[0]);
+
             let newInstanceSelect = await this.setInstance(allAccounts[0]);
             configClient.instance_selct = newInstanceSelect.instance_selct;
             return await this.db.updateData("configClient", configClient);
@@ -100,6 +136,14 @@ class Settings {
         popupAccount.closePopup();
       }
     });
+
+    const searchInput = document.querySelector(".search-input");
+    const debouncedSearch = debounce(async (e) => {
+      await this.renderAccounts(e.target.value);
+    }, 600);
+
+    searchInput.addEventListener("input", debouncedSearch);
+    this.renderAccounts();
   }
 
   async setInstance(auth) {
@@ -127,8 +171,8 @@ class Settings {
     let totalMem = Math.trunc((os.totalmem() / 1073741824) * 10) / 10;
     let freeMem = Math.trunc((os.freemem() / 1073741824) * 10) / 10;
 
-    document.getElementById("total-ram").textContent = `${totalMem} Gb`;
-    document.getElementById("free-ram").textContent = `${freeMem} Gb`;
+    document.getElementById("total-ram").textContent = `${totalMem}GB`;
+    document.getElementById("free-ram").textContent = `${freeMem}GB`;
 
     let sliderDiv = document.querySelector(".memory-slider");
     sliderDiv.setAttribute("max", Math.trunc((80 * totalMem) / 100));
@@ -151,13 +195,13 @@ class Settings {
     let minSpan = document.querySelector(".slider-touch-left span");
     let maxSpan = document.querySelector(".slider-touch-right span");
 
-    minSpan.setAttribute("value", `${ram.ramMin} Gb`);
-    maxSpan.setAttribute("value", `${ram.ramMax} Gb`);
+    minSpan.setAttribute("value", `${ram.ramMin}GB`);
+    maxSpan.setAttribute("value", `${ram.ramMax}GB`);
 
     slider.on("change", async (min, max) => {
       let config = await this.db.readData("configClient");
-      minSpan.setAttribute("value", `${min} Gb`);
-      maxSpan.setAttribute("value", `${max} Gb`);
+      minSpan.setAttribute("value", `${min}GB`);
+      maxSpan.setAttribute("value", `${max}GB`);
       config.java_config.java_memory = { min: min, max: max };
       this.db.updateData("configClient", config);
     });
